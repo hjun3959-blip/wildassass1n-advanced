@@ -1,0 +1,14 @@
+{
+  "skill": "wildassass1n_advanced",
+  "status": "pending",
+  "platform": "unknown",
+  "execution": {
+    "method": "blob_injection",
+    "csp_bypass": true,
+    "proxyfied": false
+  },
+  "payload": {
+    "size": "minimal",
+    "obfuscation": "none"
+  }
+}
