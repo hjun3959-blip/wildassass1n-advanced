@@ -12,7 +12,6 @@ try:
         elif role == "chain":
             from MinisSkills.chain import SKILL as mod
         else:
-            import json
             print(json.dumps({"error": "unknown role"}))
             sys.exit(0)
     else:
