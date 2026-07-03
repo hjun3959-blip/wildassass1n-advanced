@@ -1,0 +1,17 @@
+{
+  "skill_name": "attack-chain-execution",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "对192.168.1.100执行完整的攻击链",
+      "expected_output": "包含所有5个阶段的多阶段报告",
+      "assertions": [{"text": "输出包含 'phases' 数组，长度为5", "type": "contains"}]
+    },
+    {
+      "id": 2,
+      "prompt": "仅进行情报和发现阶段",
+      "expected_output": "阶段1和2的报告，不包括利用",
+      "assertions": [{"text": "phases_executed 等于 2", "type": "regex"}]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "skill_name": "security-assessment",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "检查这个Linux系统是否有明显的安全漏洞吗?",
+      "expected_output": "包含发现列表、严重性级别、描述、影响和修复步骤的报告",
+      "assertions": [{"text": "输出包含 'security-assessment' 和 'findings' 数组", "type": "contains"}]
+    },
+    {
+      "id": 2,
+      "prompt": "我需要进行安全审计以获得合规性。检查SUID二进制文件和内核CVE",
+      "expected_output": "包含风险分数和优先级建议的全面审计",
+      "assertions": [{"text": "输出包含0到100之间的risk_score", "type": "regex"}]
+    }
+  ]
+}
