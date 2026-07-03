@@ -3,8 +3,9 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Run process on gpt4o",
+      "prompt": "Run assault on gpt4o",
       "expected_output": "status done",
+      "files": [],
       "assertions": [
         {
           "type": "contains",
@@ -13,21 +14,42 @@
         {
           "type": "contains",
           "text": "engine"
+        },
+        {
+          "type": "contains",
+          "text": "gpt4o"
         }
       ]
     },
     {
       "id": 2,
-      "prompt": "Run process on ling-1",
-      "expected_output": "ling-1",
+      "prompt": "Run ling on ling-1",
+      "expected_output": "status done",
+      "files": [],
       "assertions": [
         {
           "type": "contains",
-          "text": "ling-1"
+          "text": "engine"
         },
         {
           "type": "contains",
-          "text": "engine"
+          "text": "ling-1"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Chain dispatch",
+      "expected_output": "chain done",
+      "files": [],
+      "assertions": [
+        {
+          "type": "contains",
+          "text": "chain"
+        },
+        {
+          "type": "contains",
+          "text": "steps"
         }
       ]
     }

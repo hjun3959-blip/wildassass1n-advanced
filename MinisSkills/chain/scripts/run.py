@@ -12,10 +12,13 @@ try:
         elif role == "chain":
             from MinisSkills.chain import SKILL as mod
         else:
-            print(json.dumps({"error": "unknown role"}))
-            sys.exit(0)
+            raise ValueError("unknown role")
     else:
         mod = __import__(f"{mod_name}.SKILL", fromlist=["run"])
-    print(json.dumps(mod.run({"role": role})))
+    result = mod.run({"role": role})
+    if not isinstance(result, dict):
+        raise TypeError("run must return dict")
+    print(json.dumps(result))
 except Exception as e:
     print(json.dumps({"error": str(e)}))
+
