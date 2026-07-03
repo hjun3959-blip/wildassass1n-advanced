@@ -7,7 +7,7 @@ def check(p):
     txt = re.sub(r'^---.*?^---', '', txt, flags=re.S|re.M)
     for m in re.finditer(r'```(?:\s*)python\n([\s\S]*?)\n```', txt):
         b = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+', '', m.group(1))
-        b = b.translate(str.maketrans('\u201c\u201d\u2018\u2019\u2014\u2013', '\'"-'))
+        b=b.translate(_chm())
         half=[]
         for ch in b:
             o=ord(ch)

@@ -27,3 +27,9 @@ def run(payload, engine="ling-1"):
 
 if __name__ == "__main__":
     run({})
+
+## health
+Quick health check:
+```
+python3 -c "import sys; sys.path.insert(0, '.'); from ling.SKILL import run; print('OK')" 2>&1
+```
