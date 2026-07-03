@@ -7,6 +7,14 @@ compatibility: Python 3.10+
 # Chain Executor
 
 ## Overview
+
+## Output format
+Always use this exact structure:
+
+# [Title]
+## Summary
+## Steps
+## Result
 Coordinate steps: assault -> ling -> finalize
 
 ## runnable

@@ -1,0 +1,27 @@
+{
+  "total": 4,
+  "ok": 4,
+  "failed": 0,
+  "details": [
+    {
+      "file": "MinisSkills/assault/SKILL.md",
+      "ok": true,
+      "notes": []
+    },
+    {
+      "file": "MinisSkills/chain/SKILL.md",
+      "ok": true,
+      "notes": []
+    },
+    {
+      "file": "MinisSkills/ling/SKILL.md",
+      "ok": true,
+      "notes": []
+    },
+    {
+      "file": "SKILL.md",
+      "ok": true,
+      "notes": []
+    }
+  ]
+}
