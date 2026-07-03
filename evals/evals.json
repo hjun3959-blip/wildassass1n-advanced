@@ -1,0 +1,1 @@
+{"skill_name":"restricted-access-chain","evals":[{"id":1,"prompt":"Run process on gpt4o","expected_output":"status done","assertions":[{"type":"contains","text":"status"}]},{"id":2,"prompt":"Run process on ling-1","expected_output":"ling-1","assertions":[{"type":"contains","text":"ling-1"}]}]}
