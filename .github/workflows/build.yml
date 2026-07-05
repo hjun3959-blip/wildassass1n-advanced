@@ -9,22 +9,28 @@ on:
 jobs:
   build-ios:
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: flutter_app
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: 'latest'
+
       - name: Generate Flutter scaffold
+        working-directory: flutter_app
         run: |
           cd ..
           flutter create --project-name ktf_mobile --org com.ktf temp_scaffold
           cp -r temp_scaffold/android temp_scaffold/ios temp_scaffold/web temp_scaffold/test flutter_app/
           rm -rf temp_scaffold
-      - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
+
+      - name: Install dependencies
+        working-directory: flutter_app
+        run: flutter pub get
+
+      - name: Build iOS
+        working-directory: flutter_app
+        run: flutter build ios --release --no-codesign
+
       - uses: actions/upload-artifact@v4
         with:
           name: ktf-mobile-ipa
@@ -33,22 +39,28 @@ jobs:
 
   build-web:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: flutter_app
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: 'latest'
+
       - name: Generate Flutter scaffold
+        working-directory: flutter_app
         run: |
           cd ..
           flutter create --project-name ktf_mobile --org com.ktf temp_scaffold
           cp -r temp_scaffold/android temp_scaffold/ios temp_scaffold/web temp_scaffold/test flutter_app/
           rm -rf temp_scaffold
-      - run: flutter pub get
-      - run: flutter build web --release
+
+      - name: Install dependencies
+        working-directory: flutter_app
+        run: flutter pub get
+
+      - name: Build Web
+        working-directory: flutter_app
+        run: flutter build web --release
+
       - uses: actions/upload-artifact@v4
         with:
           name: ktf-mobile-web
