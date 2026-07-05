@@ -13,17 +13,19 @@ jobs:
         run: |
           curl -sL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.29.2-stable.tar.xz -o /tmp/flutter.tar.xz
           tar xf /tmp/flutter.tar.xz -C /opt/
+          # Fix path: the archive extracts to /opt/flutter/flutter/
+          mv /opt/flutter/flutter/* /opt/flutter/ && rmdir /opt/flutter/flutter
+          echo "/opt/flutter/bin" >> $GITHUB_PATH
           /opt/flutter/bin/dart --version
 
       - name: Generate scaffold
         run: |
-          export PATH="/opt/flutter/bin:$PATH"
+          flutter config --enable-web 2>/dev/null || true
           flutter create --project-name ktf_mobile --org com.ktf /tmp/scaffold
           cp -r /tmp/scaffold/lib /tmp/scaffold/android /tmp/scaffold/ios /tmp/scaffold/web /tmp/scaffold/test flutter_app/
 
       - name: Build Web
         run: |
-          export PATH="/opt/flutter/bin:$PATH"
           cd flutter_app
           flutter pub get
           flutter build web --release
@@ -43,17 +45,18 @@ jobs:
         run: |
           curl -sL https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.29.2-stable.zip -o /tmp/flutter.zip
           unzip -q /tmp/flutter.zip -d /opt/
-          /opt/flutter/bin/dart --version
+          mv /opt/flutter/flutter/* /opt/flutter/ && rmdir /opt/flutter/flutter
+          echo "/opt/flutter/bin" >> $GITHUB_PATH
+          /opt/flutter/bin/flutter --version
 
       - name: Generate scaffold
         run: |
-          export PATH="/opt/flutter/bin:$PATH"
+          flutter config --enable-web --enable-ios 2>/dev/null || true
           flutter create --project-name ktf_mobile --org com.ktf /tmp/scaffold
           cp -r /tmp/scaffold/lib /tmp/scaffold/android /tmp/scaffold/ios /tmp/scaffold/web /tmp/scaffold/test flutter_app/
 
       - name: Build iOS
         run: |
-          export PATH="/opt/flutter/bin:$PATH"
           cd flutter_app
           flutter pub get
           flutter build ios --release --no-codesign
