@@ -15,17 +15,13 @@ jobs:
         with:
           flutter-version: '3.29.2'
 
-      - name: Generate Flutter scaffold
-        working-directory: flutter_app
+      - name: Generate scaffold + install
         run: |
-          cd ..
-          flutter create --project-name ktf_mobile --org com.ktf temp_scaffold
-          cp -r ../temp_scaffold/android ../temp_scaffold/ios ../temp_scaffold/web ../temp_scaffold/test ./
-          rm -rf ../temp_scaffold
-
-      - name: Install dependencies
-        working-directory: flutter_app
-        run: flutter pub get
+          cd /tmp
+          flutter create --project-name ktf_mobile --org com.ktf --platforms ios,web .
+          cp -r /tmp/android /tmp/ios /tmp/web /tmp/test ${{ github.workspace }}/flutter_app/
+          cd ${{ github.workspace }}/flutter_app
+          flutter pub get
 
       - name: Build iOS
         working-directory: flutter_app
@@ -45,17 +41,13 @@ jobs:
         with:
           flutter-version: '3.29.2'
 
-      - name: Generate Flutter scaffold
-        working-directory: flutter_app
+      - name: Generate scaffold + install
         run: |
-          cd ..
-          flutter create --project-name ktf_mobile --org com.ktf temp_scaffold
-          cp -r ../temp_scaffold/android ../temp_scaffold/ios ../temp_scaffold/web ../temp_scaffold/test ./
-          rm -rf ../temp_scaffold
-
-      - name: Install dependencies
-        working-directory: flutter_app
-        run: flutter pub get
+          cd /tmp
+          flutter create --project-name ktf_mobile --org com.ktf --platforms ios,web .
+          cp -r /tmp/android /tmp/ios /tmp/web /tmp/test ${{ github.workspace }}/flutter_app/
+          cd ${{ github.workspace }}/flutter_app
+          flutter pub get
 
       - name: Build Web
         working-directory: flutter_app
