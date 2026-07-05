@@ -17,6 +17,12 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: 'stable'
+      - name: Generate Flutter scaffold
+        run: |
+          cd ..
+          flutter create --project-name ktf_mobile --org com.ktf temp_scaffold
+          cp -r temp_scaffold/android temp_scaffold/ios temp_scaffold/web temp_scaffold/test flutter_app/
+          rm -rf temp_scaffold
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
       - uses: actions/upload-artifact@v4
@@ -35,6 +41,12 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: 'stable'
+      - name: Generate Flutter scaffold
+        run: |
+          cd ..
+          flutter create --project-name ktf_mobile --org com.ktf temp_scaffold
+          cp -r temp_scaffold/android temp_scaffold/ios temp_scaffold/web temp_scaffold/test flutter_app/
+          rm -rf temp_scaffold
       - run: flutter pub get
       - run: flutter build web --release
       - uses: actions/upload-artifact@v4
