@@ -1,57 +1,32 @@
-name: Build KTF-Mobile iOS IPA
+name: Build KTF-Mobile
 
 on:
-  push:
-    branches: [ main ]
-    paths: ['flutter_app/**']
   workflow_dispatch:
 
 jobs:
-  build-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v3
-        with:
-          flutter-version: '3.29.2'
-
-      - name: Generate scaffold + install
-        run: |
-          cd /tmp
-          flutter create --project-name ktf_mobile --org com.ktf --platforms ios,web .
-          cp -r /tmp/android /tmp/ios /tmp/web /tmp/test ${{ github.workspace }}/flutter_app/
-          cd ${{ github.workspace }}/flutter_app
-          flutter pub get
-
-      - name: Build iOS
-        working-directory: flutter_app
-        run: flutter build ios --release --no-codesign
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ktf-mobile-ipa
-          path: flutter_app/build/ios/iphoneos/Runner.app
-          retention-days: 7
-
   build-web:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v3
-        with:
-          flutter-version: '3.29.2'
+      - uses: dart-lang/setup-dart@v1
 
-      - name: Generate scaffold + install
+      - name: Install Flutter SDK
         run: |
-          cd /tmp
-          flutter create --project-name ktf_mobile --org com.ktf --platforms ios,web .
-          cp -r /tmp/android /tmp/ios /tmp/web /tmp/test ${{ github.workspace }}/flutter_app/
-          cd ${{ github.workspace }}/flutter_app
-          flutter pub get
+          git clone --depth 1 -b stable https://github.com/flutter/flutter.git /opt/flutter
+          echo "/opt/flutter/bin" >> $GITHUB_PATH
+          dart --version
+          flutter --version
+
+      - name: Generate scaffold
+        run: |
+          flutter create --project-name ktf_mobile --org com.ktf /tmp/scaffold
+          cp -r /tmp/scaffold/android /tmp/scaffold/ios /tmp/scaffold/web /tmp/scaffold/test flutter_app/
 
       - name: Build Web
-        working-directory: flutter_app
-        run: flutter build web --release
+        run: |
+          cd flutter_app
+          flutter pub get
+          flutter build web --release
 
       - uses: actions/upload-artifact@v4
         with:
