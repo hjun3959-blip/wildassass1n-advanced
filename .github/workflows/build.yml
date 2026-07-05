@@ -40,14 +40,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Flutter
-        run: |
-          curl -sL https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.29.2-stable.zip -o /tmp/flutter.zip
-          unzip -q /tmp/flutter.zip -d /opt/
-          mv /opt/flutter/flutter/* /opt/flutter/ && rmdir /opt/flutter/flutter
-          echo "/opt/flutter/bin" >> $GITHUB_PATH
-          /opt/flutter/bin/flutter --version
+      - uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: stable
 
       - name: Generate scaffold
         run: |
