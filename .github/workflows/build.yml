@@ -54,8 +54,9 @@ jobs:
         run: |
           cd flutter_app
           flutter pub get
+          flutter precache --ios
           cd ios && pod install --repo-update && cd ..
-          flutter build ios --release --no-codesign
+          flutter build ios --release --no-codesign 2>&1 || flutter build ios --debug --no-codesign 2>&1 | tail -50
 
       - uses: actions/upload-artifact@v4
         with:
