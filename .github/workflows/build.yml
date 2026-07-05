@@ -8,22 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
 
-      - name: Install Flutter SDK
+      - name: Install Flutter
         run: |
-          git clone --depth 1 -b stable https://github.com/flutter/flutter.git /opt/flutter
-          echo "/opt/flutter/bin" >> $GITHUB_PATH
-          dart --version
-          flutter --version
+          curl -sL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.29.2-stable.tar.xz -o /tmp/flutter.tar.xz
+          tar xf /tmp/flutter.tar.xz -C /opt/
+          /opt/flutter/bin/dart --version
 
       - name: Generate scaffold
         run: |
+          export PATH="/opt/flutter/bin:$PATH"
           flutter create --project-name ktf_mobile --org com.ktf /tmp/scaffold
-          cp -r /tmp/scaffold/android /tmp/scaffold/ios /tmp/scaffold/web /tmp/scaffold/test flutter_app/
+          cp -r /tmp/scaffold/lib /tmp/scaffold/android /tmp/scaffold/ios /tmp/scaffold/web /tmp/scaffold/test flutter_app/
 
       - name: Build Web
         run: |
+          export PATH="/opt/flutter/bin:$PATH"
           cd flutter_app
           flutter pub get
           flutter build web --release
@@ -32,4 +32,34 @@ jobs:
         with:
           name: ktf-mobile-web
           path: flutter_app/build/web/
+          retention-days: 7
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Flutter
+        run: |
+          curl -sL https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.29.2-stable.zip -o /tmp/flutter.zip
+          unzip -q /tmp/flutter.zip -d /opt/
+          /opt/flutter/bin/dart --version
+
+      - name: Generate scaffold
+        run: |
+          export PATH="/opt/flutter/bin:$PATH"
+          flutter create --project-name ktf_mobile --org com.ktf /tmp/scaffold
+          cp -r /tmp/scaffold/lib /tmp/scaffold/android /tmp/scaffold/ios /tmp/scaffold/web /tmp/scaffold/test flutter_app/
+
+      - name: Build iOS
+        run: |
+          export PATH="/opt/flutter/bin:$PATH"
+          cd flutter_app
+          flutter pub get
+          flutter build ios --release --no-codesign
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ktf-mobile-ipa
+          path: flutter_app/build/ios/iphoneos/Runner.app
           retention-days: 7
