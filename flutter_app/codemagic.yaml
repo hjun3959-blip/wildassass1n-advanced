@@ -1,0 +1,44 @@
+name: 'KTF-Mobile iOS Control Panel'
+packages:
+  - .
+scripts:
+  - &test &flutter_test
+    name: Test
+    script: flutter test
+    on:
+      - workflow_dispatch:
+    artifacts:
+      - build/**/outputs/**/*
+
+  - &build_web
+    name: Build Web
+    script: flutter build web --release
+    on:
+      - workflow_dispatch:
+    artifacts:
+      - build/web/**/*
+
+  - &build_ios
+    name: Build iOS IPA
+    script: flutter build ios --release --no-codesign
+    on:
+      - workflow_dispatch:
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+environment:
+  flutter: stable
+  xcode: latest
+  cocoapods: default
+
+cache:
+  cache_path: /Users/builder/.codemagic-cache
+  cache_key: flutter-cache-{CLONE_GIT_BRANCH}-{FLUTTER_VERSION}
+
+publishing:
+  email:
+    recipients:
+      - user@example.com
+    notify:
+      - success
+      - failure

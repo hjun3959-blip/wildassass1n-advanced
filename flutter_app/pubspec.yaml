@@ -1,0 +1,28 @@
+name: ktf_mobile
+description: KTF-Mobile iOS Control Panel — Flutter cross-platform
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  web_socket_channel: ^2.4.0
+  provider: ^6.0.5
+  charts_flutter: ^0.12.0
+  flutter_local_notifications: ^15.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: SFMono
+      fonts:
+        - asset: fonts/SFMono-Regular.ttf
